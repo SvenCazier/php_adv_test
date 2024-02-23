@@ -1,0 +1,150 @@
+{% extends "basisTemplate.twig" %}
+
+{% block title %}Bestellen{% endblock %}
+{% block content %}
+
+<div class="bestel-wrapper columns">
+    <form action="winkelmandjeController.php" method="POST" class="formCard bestelform elevate">
+        <div class="formCard-header">
+            <h1>Bestellen</h1>
+        </div>
+        {% for error in errors %}
+        <label class="error"> {{ error }}</label>
+        {% endfor %}
+        <div class="body-wrapper">
+            <div class="formCard-body">
+                <h3>Kies uw pizza</h3>
+                {% for pizza in pizzas %}
+                <label class="product-card-container">
+                    <input class="product-card-selector" type="radio" name="pizza" value="{{ pizza.id }}">
+                    <div class="product-card">
+                        <img class="product-card-img" src="Public/img/{{ pizza.id }}.png">
+                        <div class="product-card-info">
+                            <div class="product-card-info__header">
+                                <div class="product-card-title">
+                                    <b>{{ pizza.naam }}</b>
+                                </div>
+                                <div class="product-card-price">
+                                    {% if klant.heeftRechtOpPromotie and pizza.inpromotie %}
+                                    <s>{{ pizza.prijs | number_format(2, ',', '.') }}</s> <strong>{{ pizza.promotiePrijs | number_format(2, ',', '.') }}</strong>
+                                    {% else %}
+                                    <b>{{ pizza.prijs | number_format(2, ',', '.') }}</b>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="product-card-description">
+                                {{ pizza.omschrijving }}
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+            <div class="formCard-body">
+                <h3>Kies uw extras</h3>
+                {% for extra in extras %}
+                <label class="product-card-container">
+                    <input class="product-card-selector" type="checkbox" name="extras[]" value="{{ extra.id }}">
+                    <div class="product-card">
+                        <img class="product-card-img" src="Public/img/{{ extra.id }}.png">
+                        <div class="product-card-info">
+                            <div class="product-card-info__header">
+                                <div class="product-card-title">
+                                    <b>{{ extra.naam }}</b>
+                                </div>
+                                <div class="product-card-price">
+                                    {% if klant is not null and klant.heeftRechtOpPromotie and extra.inpromotie %}
+                                    <s>{{ extra.prijs | number_format(2, ',', '.') }}</s> <strong>{{ extra.promotiePrijs | number_format(2, ',', '.') }}</strong>
+                                    {% else %}
+                                    <b>{{ extra.prijs | number_format(2, ',', '.') }}</b>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="product-card-description">
+                                {{ extra.omschrijving }}
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="formCard-footer">
+            <div class="form-control-inline">
+                <label for="aantal">Aantal</label>
+                <input id="aantal" name="aantal" type="number" value="1" min="1" required>
+            </div>
+            <div class="form-control">
+                <input type="submit" value="Voeg toe">
+            </div>
+        </div>
+    </form>
+    <div class="formCard elevate">
+        <div class="formCard-header">
+            <h1>Winkelmandje</h1>
+        </div>
+        <div class="formCard-body">
+            <table class="tabel">
+                <thead>
+                    <tr>
+                        <th>Pizza</th>
+                        <th class="align-right">Prijs</th>
+                        <th><img src="Public/img/fill.svg"></th>
+                    </tr>
+                </thead>
+                {% if winkelmandje.bestelLijnen|length > 0 %}
+                {% for index, bestelLijn in winkelmandje.bestelLijnen %}
+                <tbody>
+                    <tr>
+                        <td>{{ bestelLijn.aantal }}X {{ bestelLijn.pizza.naam }}</td>
+                        <td class="align-right">€{{ bestelLijn.pizza.prijsVoorKlant(klant) | number_format(2, ',', '.') }}</td>
+                        <td><a href="winkelmandjeController.php?action=delete&index={{ index }}"><img src="Public/img/trash-can.svg"></a></td>
+                    </tr>
+                    {% for extra in bestelLijn.pizza.extras %}
+                    <tr class="sub-item">
+                        <td class="indent"><small>{{ extra.naam }}</small></td>
+                        <td class="align-right"><small>€{{ extra.prijsVoorKlant(klant) | number_format(2, ',', '.') }}</small></td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                    {% if (bestelLijn.pizza.extras|length > 0 or bestelLijn.aantal > 1) and winkelmandje.bestelLijnen|length > 1 %}
+                    <tr>
+                        <td>Subtotaal</td>
+                        <td class="align-right">€{{ winkelmandje.subtotaal(index) | number_format(2, ',', '.') }}</td>
+                        <td></td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+                {% endfor %}
+                {% else %}
+                <tbody></tbody>
+                {% endif %}
+                <tfoot>
+                    <tr>
+                        <td><b>Totaal</b></td>
+                        <td class="align-right">
+                            {% if winkelmandje.totaal > 0 %}
+                            <b>€{{ winkelmandje.totaal | number_format(2, ',', '.') }}</b>
+                            {% endif %}
+                        </td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="formCard-footer">
+            <div class="footer-buttons">
+                {% if winkelmandje.isLeeg %}
+                <span class="btn-inverse-disabled">Annuleer</span>
+                <span class="btn-disabled">Afrekenen</span>
+                {% else %}
+                <a href="winkelmandjeController.php?action=reset" class="btn-inverse">Annuleer</a>
+                <a href="winkelmandjeController.php?action=order" class="btn">Afrekenen</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

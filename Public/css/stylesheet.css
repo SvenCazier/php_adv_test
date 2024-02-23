@@ -1,0 +1,460 @@
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	background: #121212;
+	color: white;
+	font-family: "Poppins", sans-serif;
+	padding: 0;
+	margin: 0;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 7em;
+	margin-top: 5em;
+}
+
+.elevate {
+	background: #1f1f1f;
+	color: white;
+	border-radius: 5px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.success {
+	background: #03dac6;
+	color: black;
+	font-weight: bold;
+	padding: 0.5em;
+}
+
+.error {
+	background: #cf6679;
+	color: black;
+	font-weight: bold;
+	padding: 0.5em;
+}
+
+a {
+	color: #c38fff;
+}
+
+/* NAVBAR */
+
+nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: #1f1f1f;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	height: 4em;
+	width: 100%;
+	display: flex;
+	justify-content: end;
+	padding-right: 20px;
+}
+
+nav ul {
+	display: flex;
+	align-items: center;
+	list-style: none;
+}
+
+nav ul li {
+	margin-left: 20px;
+}
+
+nav ul li a {
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+/* TABEL */
+
+.tabel {
+	border-collapse: collapse;
+	min-width: 400px;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.tabel thead th:first-child {
+	text-align: left;
+}
+
+.tabel tbody:last-of-type {
+	flex: 1;
+}
+
+.tabel thead {
+	border-bottom: 3px solid rgba(255, 255, 255, 0.15);
+}
+
+.tabel tbody:not(:last-of-type) {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tabel tfoot {
+	border-top: 3px solid rgba(255, 255, 255, 0.15);
+}
+
+.tabel th,
+.tabel td {
+	width: 100%;
+}
+
+.tabel th,
+.tabel td {
+	padding: 0.75em 0.9375em;
+}
+
+.tabel tr.sub-item td {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.tabel tr td.indent {
+	padding-left: 1.5em;
+}
+
+.tabel tr td.indent::before {
+	content: "-";
+	margin-right: 0.25em;
+	font-size: smaller;
+}
+
+.tabel th.align-right,
+.tabel td.align-right {
+	text-align: right;
+}
+
+.tabel th:last-child,
+.tabel td:last-child {
+	width: 25%;
+}
+
+/* ALLE FORMS */
+
+form {
+	margin: 0;
+}
+
+form,
+div .formCard {
+	display: flex;
+}
+
+.formCard {
+	flex-direction: column;
+	background: #1f1f1f;
+	color: white;
+	min-width: 600px;
+	padding: 0.75em 0.9375em;
+}
+
+.formCard .formCard-header,
+.formCard .formCard-footer {
+	display: flex;
+	justify-content: center;
+}
+
+.formCard .formCard-body {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.form-control,
+.form-control-checkbox {
+	display: flex;
+	position: relative;
+}
+
+.form-control-inline {
+	display: inline;
+	position: relative;
+}
+
+.form-control,
+.form-control-inline {
+	margin-bottom: 1.125em;
+}
+
+.form-control {
+	flex-direction: column;
+}
+
+.form-control-inline {
+	flex-direction: row;
+}
+
+.form-control-checkbox {
+	align-items: center;
+}
+
+.footer-buttons {
+	display: flex;
+	gap: 1em;
+	margin-bottom: 1.125em;
+}
+
+.form-group {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(33.33%, 1fr));
+}
+
+.form-group .form-group-header {
+	grid-column: span 3;
+}
+
+.form-group .form-control {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.form-control sub {
+	position: absolute;
+	left: 0;
+	bottom: -22px;
+}
+
+input,
+select,
+select option,
+a.btn,
+a.btn-inverse,
+.btn-disabled,
+.btn-inverse-disabled {
+	border: none;
+	outline: none;
+	font-size: 1em;
+	height: 40px;
+}
+
+input[type="text"],
+input[type="password"],
+select,
+select option {
+	padding: 0 0.5em;
+	margin: 0;
+}
+
+select {
+	cursor: pointer;
+}
+
+input[type="checkbox"] {
+	position: relative;
+	appearance: none;
+	background-color: #1f1f1f;
+	margin-right: 0.5em;
+	width: 1.5em;
+	height: 1.5em;
+	border: 3px solid #c38fff;
+	cursor: pointer;
+}
+
+input[type="checkbox"]::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0.875em;
+	height: 0.875em;
+	scale: 0;
+	translate: -50% -50%;
+	transition: 120ms scale ease-in-out;
+	box-shadow: inset 1em 1em #c38fff;
+}
+
+input[type="checkbox"]:checked::before {
+	scale: 1;
+}
+
+.btn,
+.btn-inverse,
+.btn-disabled,
+.btn-inverse-disabled {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	user-select: none;
+}
+
+a.btn,
+input[type="submit"] {
+	background: #c38fff;
+	color: black;
+}
+
+.btn-disabled {
+	background: #747474;
+	color: white;
+}
+
+.btn-inverse {
+	color: #c38fff;
+}
+
+.btn-inverse-disabled {
+	color: #747474;
+}
+
+.btn,
+.btn-inverse,
+.btn-disabled,
+.btn-inverse-disabled,
+input[type="submit"] {
+	padding: 0.75em 1em;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.btn,
+.btn-inverse,
+input[type="submit"] {
+	cursor: pointer;
+}
+
+/* SEARCHFORM */
+
+.searchForm {
+	width: 100%;
+	margin-bottom: 1.125em;
+}
+
+/* LOGINFORM */
+
+.center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/* BESTELPAGINA & OVERZICHTPAGINA */
+
+.bestel-wrapper {
+	display: grid;
+	margin: 0;
+	min-height: calc(100vh - 4em);
+	width: 100%;
+	padding-bottom: 4em;
+}
+.bestel-wrapper.columns {
+	grid-template-columns: 61.8% 1fr;
+	gap: 2em;
+}
+
+.bestel-wrapper .formCard {
+	width: 100%;
+}
+
+.bestel-wrapper .formCard .formCard-footer {
+	justify-content: flex-end;
+}
+
+.bestelform .body-wrapper {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	column-gap: 1em;
+}
+
+/* ADRESFORMULIER */
+
+.formCard.adressCard {
+	width: 80%;
+}
+
+.formCard-body-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-column-gap: 1em;
+	grid-row-gap: 1em;
+}
+.formCard-body-grid .div1 {
+	grid-area: 1 / 1 / 2 / 3;
+}
+.formCard-body-grid .div2 {
+	grid-area: 1 / 3 / 2 / 5;
+}
+.formCard-body-grid .div3 {
+	grid-area: 2 / 1 / 3 / 4;
+}
+.formCard-body-grid .div4 {
+	grid-area: 2 / 4 / 3 / 5;
+}
+.formCard-body-grid .div5 {
+	grid-area: 3 / 1 / 4 / 5;
+}
+.formCard-body-grid .div6 {
+	grid-area: 4 / 1 / 5 / 3;
+}
+.formCard-body-grid .div7 {
+	grid-area: 4 / 3 / 5 / 5;
+}
+.formCard-body-grid .div8 {
+	grid-area: 5 / 3 / 6 / 5;
+}
+
+/* PRODUCT CARDS */
+
+.product-card-container {
+	cursor: pointer;
+	user-select: none;
+	margin-bottom: 1.2em;
+}
+
+.product-card-selector {
+	display: none;
+}
+.product-card-selector:checked + .product-card {
+	box-shadow: 0 0 1px 3px #bb86fc;
+}
+.product-card {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 150px;
+	background: #2d2d2d;
+	padding: 0.85em;
+	border-radius: 5px;
+}
+.product-card-img {
+	height: 100%;
+	border-radius: 5px;
+}
+.product-card-info {
+	width: 100%;
+	margin: 0.75em;
+}
+.product-card-info__header {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 0.5em;
+}
+.product-card-price s {
+	font-size: 0.875em;
+}
+
+/* KLANT INFO */
+
+.customer-info div {
+	margin-bottom: 0.5em;
+}
+
+.customer-info p {
+	margin: 0;
+}

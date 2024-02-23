@@ -1,0 +1,85 @@
+{% extends "basisTemplate.twig" %}
+
+{% block title %}Overzicht{% endblock %}
+{% block content %}
+
+<div class="bestel-wrapper">
+    <div class="formCard elevate">
+        <div class="formCard-header">
+            <h1>Bestellingsoverzicht</h1>
+        </div>
+        {% for error in errors %}
+        <label class="error"> {{ error }}</label>
+        {% endfor %}
+        <div class="formCard-body">
+            <div class="customer-info">
+                <div>
+                    <b>{{ klant.voornaam }} {{ klant.naam }}</b>
+                </div>
+                <div>
+                    <p>{{ klant.adres.straat }} {{ klant.adres.huisnummer }}</p>
+                    <p>{{ klant.adres.plaats.postcode }} {{ klant.adres.plaats.woonplaats }}</p>
+                </div>
+                <div>
+                    <p>{{ klant.formattedtelefoon }} </p>
+                    <p>{{ klant.email }} </p>
+                </div>
+            </div>
+            <table class="tabel">
+                <thead>
+                    <tr>
+                        <th>Pizza</th>
+                        <th class="align-right">Prijs</th>
+                    </tr>
+                </thead>
+                {% if winkelmandje.bestelLijnen|length > 0 %}
+                {% for index, bestelLijn in winkelmandje.bestelLijnen %}
+                <tbody>
+                    <tr>
+                        <td>{{ bestelLijn.aantal }}X {{ bestelLijn.pizza.naam }}</td>
+                        <td class="align-right">€{{ bestelLijn.pizza.prijsVoorKlant(klant) | number_format(2, ',', '.') }}</td>
+                    </tr>
+                    {% for extra in bestelLijn.pizza.extras %}
+                    <tr class="sub-item">
+                        <td class="indent"><small>{{ extra.naam }}</small></td>
+                        <td class="align-right"><small>€{{ extra.prijsVoorKlant(klant) | number_format(2, ',', '.') }}</small></td>
+                    </tr>
+                    {% endfor %}
+                    {% if (bestelLijn.pizza.extras|length > 0 or bestelLijn.aantal > 1) and winkelmandje.bestelLijnen|length > 1 %}
+                    <tr>
+                        <td>Subtotaal</td>
+                        <td class="align-right">€{{ winkelmandje.subtotaal(index) | number_format(2, ',', '.') }}</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+                {% endfor %}
+                {% else %}
+                <tbody></tbody>
+                {% endif %}
+                <tfoot>
+                    <tr>
+                        <td><b>Totaal</b></td>
+                        <td class="align-right">
+                            {% if winkelmandje.totaal > 0 %}
+                            <b>€{{ winkelmandje.totaal | number_format(2, ',', '.') }}</b>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="formCard-footer">
+            <div class="footer-buttons">
+                <a href="winkelmandjeController.php?action=reset" class="btn-inverse">Annuleer</a>
+                <a href="adresController.php" class="btn-inverse">Adres wijzigen</a>
+                <a href="bestelController.php" class="btn-inverse">Bestelling wijzigen</a>
+                {% if winkelmandje.isLeeg %}
+                <span class="btn-disabled">Afrekenen</span>
+                {% else %}
+                <a href="overzichtController.php?action=order" class="btn">Afrekenen</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

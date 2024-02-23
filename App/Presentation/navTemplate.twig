@@ -1,0 +1,18 @@
+<header>
+    <nav>
+        <ul>
+            <li>
+                <a href="bestelController.php">Bestellen</a>
+            </li>
+            {% if isAuthenticated %}
+            <li>
+                <a href="logoutController.php">Afmelden</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="loginController.php">Aanmelden</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>

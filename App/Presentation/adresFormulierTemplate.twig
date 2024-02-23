@@ -1,0 +1,99 @@
+{% extends "basisTemplate.twig" %}
+
+{% block title %}Adresgegevens{% endblock %}
+{% block content %}
+
+{% if post is defined and post.woonplaats is defined %}
+{% set selectedWoonplaats = post.woonplaats %}
+{% else %}
+{% set selectedWoonplaats = klant.adres.plaats.id %}
+{% endif %}
+
+<form action="" method="POST" class="formCard adressCard center elevate">
+    <div class="formCard-header">
+        {% if not isAuthenticated %}
+        <h1>Adresgegevens</h1>
+        {% else %}
+        <h1>Wijzig adresgegevens</h1>
+        {% endif %}
+
+    </div>
+    <div class="formCard-body-grid">
+        <!-- NAAM & VOORNAAM -->
+        <div class="form-control div1">
+            <label for="naam">Naam</label>
+            <input id="naam" name="naam" type="text" value="{{ post.naam ?? klant.naam }}" required>
+            {% if "naam" in errors|keys %}
+            <label class="error"> {{ errors["naam"] }}</label>
+            {% endif %}
+        </div>
+        <div class="form-control div2">
+            <label for="voornaam">Voornaam</label>
+            <input id="voornaam" name="voornaam" type="text" value="{{ post.voornaam ?? klant.voornaam }}" required>
+            {% if "voornaam" in errors|keys %}
+            <label class="error"> {{ errors["voornaam"] }}</label>
+            {% endif %}
+        </div>
+        <!-- STRAAT & HUISNUMMER -->
+        <div class="form-control div3">
+            <label for="straat">Straat</label>
+            <input id="straat" name="straat" type="text" value="{{ post.straat ?? klant.adres.straat }}" required>
+            {% if "straat" in errors|keys %}
+            <label class="error"> {{ errors["straat"] }}</label>
+            {% endif %}
+        </div>
+        <div class="form-control div4">
+            <label for="huisnummer">Huisnummer</label>
+            <input id="huisnummer" name="huisnummer" type="text" value="{{ post.huisnummer ?? klant.adres.huisnummer }}" required>
+            {% if "huisnummer" in errors|keys %}
+            <label class="error"> {{ errors["huisnummer"] }}</label>
+            {% endif %}
+        </div>
+        <!-- POSTCODE & WOONPLAATS -->
+        <div class="form-control div5">
+            <label for="woonplaats">Woonplaats</label>
+            <select id="woonplaats" name="woonplaats" required>
+                <option disabled {% if not klant.adres.plaats.id %} selected {% endif %} value> -- KIES EEN WOONPLAATS -- </option>
+                {% for woonplaats in plaatsen %}
+                <option value="{{ woonplaats.id }}" {% if woonplaats.id == selectedWoonplaats %} selected {% endif %}>
+                    {{ woonplaats.postcode }} {{ woonplaats.woonplaats }}
+                </option>
+                {% endfor %}
+            </select>
+            {% if "woonplaats" in errors|keys %}
+            <label class="error"> {{ errors["woonplaats"] }}</label>
+            {% endif %}
+        </div>
+        <!-- TELEFOON & ACCOUNT AANMAKEN -->
+        <div class="form-control div6">
+            <label for="telefoon">Telefoonnummer</label>
+            <input id="telefoon" name="telefoon" type="text" placeholder="0123456789" minlength="9" maxlength="10" value="{{ post.telefoon ?? klant.telefoon }}" required>
+            <sub>(enkel nummers, zonder landcode)</sub>
+            {% if "telefoon" in errors|keys %}
+            <label class="error"> {{ errors["telefoon"] }}</label>
+            {% endif %}
+        </div>
+        {% if not isAuthenticated %}
+        <div class="form-control-checkbox div7">
+            <input id="account_aanmaken" name="account_aanmaken" type="checkbox" value="1" {% if inputs.account %} checked {% endif %}>
+            <label for="account_aanmaken">Account aanmaken</label>
+            {% if "account_aanmaken" in errors|keys %}
+            <label class="error"> {{ errors["account_aanmaken"] }}</label>
+            {% endif %}
+        </div>
+        {% endif %}
+        <!-- SUBMIT -->
+        <div class="form-control div8">
+            {% if klant %}
+            <input type="submit" value="Wijzigen">
+            {% else %}
+            <input type="submit" value="Verder">
+            {% endif %}
+        </div>
+    </div>
+    {% set errors = errors | filter((v, k) => k not in ["naam", "voornaam", "straat", "huisnummer", "woonplaats", "telefoon", "account_aanmaken"]) %}
+    {% for error in errors %}
+    <label class="error"> {{ error }}</label>
+    {% endfor %}
+</form>
+{% endblock %}

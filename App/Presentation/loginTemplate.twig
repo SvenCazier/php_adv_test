@@ -1,0 +1,33 @@
+{% extends "basisTemplate.twig" %}
+
+{% block title %}Aanmelden{% endblock %}
+{% block content %}
+<form action="" method="POST" class="formCard center elevate">
+    <div class="formCard-header">
+        <h1>Aanmelden</h1>
+    </div>
+    <div class="formCard-body">
+        <div class="form-control">
+            <label for="email">E-mailadres</label>
+            <input id="email" name="email" type="text" value="{{ post.email ?? email }}" required>
+            {% if "email" in errors|keys %}
+            <label class="error"> {{ errors["email"] }}</label>
+            {% endif %}
+        </div>
+        <div class="form-control">
+            <label for="wachtwoord">Wachtwoord</label>
+            <input id="wachtwoord" name="wachtwoord" type="password" required>
+            {% if "wachtwoord" in errors|keys %}
+            <label class="error"> {{ errors["wachtwoord"] }}</label>
+            {% endif %}
+        </div>
+        <div class="form-control">
+            <input type="submit" value="Aanmelden">
+        </div>
+    </div>
+    {% set errors = errors | filter((v, k) => k not in ["email", "wachtwoord"] ) %}
+    {% for error in errors %}
+    <label class="error"> {{ error }}</label>
+    {% endfor %}
+</form>
+{% endblock %}
