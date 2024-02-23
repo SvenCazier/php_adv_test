@@ -11,7 +11,6 @@ use App\Business\{BestelService, KlantService, ErrorService, InputService, Reque
 /* ANDERS => GA NAAR OVERZICHTCONTROLLER */
 /* ALS AUTHENTICATED => ADRESWIJZIGING */
 
-ErrorService::clearErrors();
 $klantService = new KlantService();
 $bestelService = new BestelService();
 

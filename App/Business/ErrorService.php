@@ -20,6 +20,7 @@ class ErrorService
     public static function getErrors(): array
     {
         $errors = SessionService::getSession("errors") ?? [];
+        // Dit had ik toch al geïmplementeerd, maar zat niet in de originele versie
         if ($errors) {
             self::clearErrors();
         }

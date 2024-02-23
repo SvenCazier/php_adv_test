@@ -16,7 +16,6 @@ use App\Business\{
 /* TOON FORMULIER VOOR EMAIL EN WACHTWOORD EN REGISTREER GEBRUIKER */
 /* NA REGISTRATIE => LOG IN */
 
-ErrorService::clearErrors();
 $klantService = new KlantService();
 $bestelService = new BestelService();
 

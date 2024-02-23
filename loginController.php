@@ -11,12 +11,9 @@ use App\Business\{
     RequestService,
     KlantService,
     BestelService,
-    SessionService
 };
 
 $klantService = new KlantService();
-
-ErrorService::clearErrors();
 
 if (RequestService::isPost()) {
     $validatedInputs = InputService::validateInputs(

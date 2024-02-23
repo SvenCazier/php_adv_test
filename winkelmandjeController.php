@@ -7,7 +7,6 @@ require_once("bootstrap.php");
 use App\Business\{
     BestelService,
     KlantService,
-    ErrorService,
     InputService,
     RedirectService,
     RequestService,
@@ -18,7 +17,6 @@ $klantService = new KlantService();
 $bestelService = new BestelService();
 
 if (RequestService::isPost()) { // HIER AFHANDELEN OM FORM RESUBMIT TE VOORKOMEN
-    ErrorService::clearErrors();
     $inputs = RequestService::postArray();
     // OPVANGEN ONTBREKEN VAN POST VARIABELEN VOOR RADIO & CHECKBOX INDIEN GEEN SELECTIE GEMAAKT
     if (!isset($inputs["pizza"])) $inputs["pizza"] = NULL;
@@ -64,7 +62,7 @@ if (RequestService::isGet()) {
                 ]
             );
             if ($query) $bestelService->verwijderUitWinkelMandje((int)$query["index"]);
-            SessionService::setSession("fromWinkelmandjeController", true); // OM DUIDELIJK TE MAKEN AAN DE BESTELCONTROLLER DAT ER HANDELINGEN ZIJN GEBEURD, IVM ERRORS
+            // NIET MEER NODIG OMDAT ERRORS AUTOMATISCH GECLEARED WORDEN BIJ HET TONEN, DUS KUNNEN NIET MEER BESTAAN BIJ NAVIGEREN NAAR ANDERE PAGINA
             break;
     }
 }

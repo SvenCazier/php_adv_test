@@ -25,6 +25,16 @@ Indien deze nog niet bestaan zonder logingegevens wordt een record aangemaakt, o
 
 Als de klant zich dan probeert te registeren met een bestaand e-mail adres wordt er een foutmelding getoond, ~~bijkomend als dat e-mail adres bestaat bij dezelfde klantgegevens wordt de nieuwe record verwijderd[^6] en gevraagd om aan te melden[^7]~~, maar als een ander e-mailadres gebruikt wordt, wordt het record zonder e-mail en wachtwoord geupdated met de login gegevens als zijnde nieuw account.
 
+## V2
+
+Automatisch verwijderen van errors nadat ze getoond zijn.
+
+-   Niet de taak van de controller om die te verwijderen.
+-   Hoeven niet te blijven na een refresh.
+-   Voorkomt problemen bij navigatie voordat ze verwijderd zijn.
+
+Eventuele extra verbetering naar de toekomst toe: Verplaatsen van post afhandeling adres en account registratie naar aparte controller om de vervelende repost alert bij een refresh te voorkomen.
+
 [^1]: Heeft recht op promotie.
 [^2]: Achteraf bekeken had ik beter de scheiding tussen login en info behouden om het e-mailadres apart als info te kunnen opslaan (maar wordt uiteindelijk ook niet gevraagd hier).
 [^3]: Voordeel: Er hoeft maar één query uitgevoerd te worden.
